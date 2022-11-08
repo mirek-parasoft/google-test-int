@@ -39,7 +39,7 @@ jobs:
       run: cd build && rm -rf cpptest-coverage/GooTest/GooTest.clog && ctest || true && make coverage-compute coverage-suppress coverage-report && coverage-report-details-html.py ../.coverage -out report_html 
   
     - name: Archive html 
-    - uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v3
       with:
         name: coverage-report
         path: report_html/
