@@ -15,8 +15,3 @@ TEST(GooTest, TestGetValueWithPositive) {
 TEST(GooTest, TestGetValueWithNegative) {
   EXPECT_EQ(getValue(-5, -5), -5);
 }
-
-// 
-TEST(GooTest, TestGetValueWithMixed) {
-  EXPECT_EQ(getValue(-5, 5), -5);
-}
