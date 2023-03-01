@@ -53,7 +53,7 @@ jobs:
         path: .coverage/
 
     - name: Line coverage quality gate
-      run: grep "> TOTAL.*LC=100%" .coverage/coverage.txt || echo "Line Code coverage quality gate failed" && grep "> TOTAL.*" .coverage/coverage.txt && !
+      run: grep "> TOTAL.*" .coverage/coverage.txt && grep "> TOTAL.*LC=100%" .coverage/coverage.txt || echo "Line Code coverage quality gate failed" && !
 
     - name: MCDC coverage quality gate
-      run: grep "> TOTAL.*MCDC=100%" .coverage/coverage.txt || echo "MCDC Code coverage quality gate failed" && grep "> TOTAL.*" .coverage/coverage.txt&& !
+      run: grep "> TOTAL.*" .coverage/coverage.txt && grep "> TOTAL.*MCDC=100%" .coverage/coverage.txt || echo "MCDC Code coverage quality gate failed" && !
