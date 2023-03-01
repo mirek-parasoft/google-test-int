@@ -17,9 +17,9 @@ TEST(GooTest, TestGetValueWithPositive) {
 }
 
 
-/*
+
 TEST(GooTest, TestGetValueWithABNegative_2) {
   EXPECT_EQ(getValue(-3, 5), -15);
-}*/
+}
 
 
