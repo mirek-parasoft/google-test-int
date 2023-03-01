@@ -25,8 +25,10 @@ function (cpptest_enable_coverage)
 
   # Configure C/C++test compiler identifier
   set(CPPTEST_COMPILER_ID "gcc_10-64")
-  # Configure coverage type(s) - see 'cpptestcc -help' for details
-  set(CPPTEST_COVERAGE_TYPE_FLAGS -line-coverage -block-coverage -statement-coverage -decision-coverage -function-coverage -simple-condition-coverage -mcdc-coverage -call-coverage)
+  # Configure coverage type(s) for instrumentation engine - see 'cpptestcc -help' for details
+  set(CPPTEST_COVERAGE_TYPE_INSTRUMENTATION -line-coverage -statement-coverage -block-coverage -decision-coverage -simple-condition-coverage -mcdc-coverage -function-coverage -call-coverage)
+  # Configure coverage type(s) for reporing engine - see 'coverage-compute -help' for details
+  set(CPPTEST_COVERAGE_TYPE_REPORT "LC,DC,MCDC" )
   # Configure C/C++test project name
   set(CPPTEST_PROJECT_NAME ${CMAKE_PROJECT_NAME})
   # Configure coverage workspace folder
@@ -40,7 +42,7 @@ function (cpptest_enable_coverage)
   else()
     set(CPPTEST_HOME_DIR $ENV{CPPTEST_HOME})
   endif()
-
+  
   if(NOT CPPTEST_HOME_DIR)
     message(FATAL_ERROR "$CPPTEST_HOME not set" )
   endif()
@@ -86,7 +88,7 @@ function (cpptest_enable_coverage)
   set(CPPTEST_CPPTESTCC_OPTS
       -workspace "${CPPTEST_COVERAGE_WORKSPACE}"
       -compiler ${CPPTEST_COMPILER_ID}
-      ${CPPTEST_COVERAGE_TYPE_FLAGS}
+      ${CPPTEST_COVERAGE_TYPE_INSTRUMENTATION}
       -exclude "regex:*"
       -include "regex:${CPPTEST_SOURCE_DIR}/*"
       -exclude "regex:${CPPTEST_BINARY_DIR}/*"
@@ -115,12 +117,15 @@ function (cpptest_enable_coverage)
   # Compute coverage data files (.json) into ${CPPTEST_SOURCE_DIR}/.coverage
   add_custom_target(coverage-compute
     COMMAND
+    rm -rf "${CPPTEST_SOURCE_DIR}/.coverage"
+    &&
     mkdir -p "${CPPTEST_SOURCE_DIR}/.coverage"
     &&
     ${CPPTEST_HOME_DIR}/bin/coverage-compute
         -map="${CPPTEST_COVERAGE_WORKSPACE}/.cpptest/cpptestcc"
         -clog="${CPPTEST_COVERAGE_LOG_FILE}"
         -out="${CPPTEST_SOURCE_DIR}/.coverage"
+        -coverage=${CPPTEST_COVERAGE_TYPE_REPORT}
     &&
     ${CPPTEST_HOME_DIR}/bin/coverage-index.py
         "${CPPTEST_SOURCE_DIR}/.coverage"   
@@ -134,18 +139,22 @@ function (cpptest_enable_coverage)
   add_custom_target(coverage-report
     COMMAND
     ${CPPTEST_HOME_DIR}/bin/coverage-report-stats-txt.py
+        -coverage=${CPPTEST_COVERAGE_TYPE_REPORT}
         "${CPPTEST_SOURCE_DIR}/.coverage" >
         "${CPPTEST_SOURCE_DIR}/.coverage/coverage.txt"
     &&
     ${CPPTEST_HOME_DIR}/bin/coverage-report-stats-md.py
+        -coverage=${CPPTEST_COVERAGE_TYPE_REPORT}
         "${CPPTEST_SOURCE_DIR}/.coverage" >
         "${CPPTEST_SOURCE_DIR}/.coverage/coverage.md"
     &&
     ${CPPTEST_HOME_DIR}/bin/coverage-report-stats-html.py
+        -coverage=${CPPTEST_COVERAGE_TYPE_REPORT}
         "${CPPTEST_SOURCE_DIR}/.coverage" >
         "${CPPTEST_SOURCE_DIR}/.coverage/coverage.html"
     &&
     ${CPPTEST_HOME_DIR}/bin/coverage-report-stats-txt.py
+        -coverage=${CPPTEST_COVERAGE_TYPE_REPORT}
         "${CPPTEST_SOURCE_DIR}/.coverage"
   )
 
