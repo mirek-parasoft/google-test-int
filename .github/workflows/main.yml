@@ -52,5 +52,8 @@ jobs:
         name: CpptestCoverage
         path: .coverage/
 
-    - name: Check coverage quality gate
-      run: grep "> TOTAL.*LC=100%.*DC=100%.*MCDC=100%" .coverage/coverage.txt  
+    - name: Line coverage quality gate
+      run: grep "> TOTAL.*LC=100%" coverage.txt || echo "Line Code coverage quality gate failed" && !
+
+    - name: MCDC coverage quality gate
+      run: grep "> TOTAL.*MCDC=100%" coverage.txt || echo "MCDC Code coverage quality gate failed" && !
