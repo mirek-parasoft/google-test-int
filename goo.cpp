@@ -2,11 +2,11 @@
 
 int getValue(int a, int b)
 {
-    if ((a > 0) && (b > 0)) {
+    if ((a > 0) || (b > 0)) {
         return a * b;
     }
 
-    if (a > 0) {
+    if (a > b) {
         return a;
     } else {
         return b;

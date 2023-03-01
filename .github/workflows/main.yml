@@ -53,4 +53,4 @@ jobs:
         path: .coverage/
 
     - name: Check coverage quality gate
-      run: echo "Insufficient level of the MCDC coverage !!!" && cat .coverage/coverage.md  && cat .coverage/coverage.md | grep TOTAL | grep '(3/3)' 
+      run: grep "> TOTAL.*LC=100%.*DC=100%.*MCDC=100%" .coverage/coverage.txt  
