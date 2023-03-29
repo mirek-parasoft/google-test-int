@@ -159,6 +159,9 @@ function (cpptest_enable_coverage)
     ${CPPTEST_HOME_DIR}/bin/coverage-report-stats-txt.py
         -coverage=${CPPTEST_COVERAGE_TYPE_REPORT}
         "${CPPTEST_SOURCE_DIR}/.coverage"
+    &&
+    ${CPPTEST_HOME_DIR}/bin/coverage-report-suppressed-txt.py
+        "${CPPTEST_SOURCE_DIR}/.coverage"
 
   )
 
