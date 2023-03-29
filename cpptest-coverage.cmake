@@ -153,9 +153,13 @@ function (cpptest_enable_coverage)
         "${CPPTEST_SOURCE_DIR}/.coverage" >
         "${CPPTEST_SOURCE_DIR}/.coverage/coverage.html"
     &&
+    ${CPPTEST_HOME_DIR}/bin/coverage-report-mcdc-table.py
+        "${CPPTEST_SOURCE_DIR}/.coverage"
+    &&
     ${CPPTEST_HOME_DIR}/bin/coverage-report-stats-txt.py
         -coverage=${CPPTEST_COVERAGE_TYPE_REPORT}
         "${CPPTEST_SOURCE_DIR}/.coverage"
+
   )
 
   # Apply coverage suppressions to existing coverage data files
