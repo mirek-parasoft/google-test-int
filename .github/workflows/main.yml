@@ -36,7 +36,7 @@ jobs:
       
     # Tests your CMake project.
     - name: Test project
-      run: cd build && rm -rf cpptest-coverage/GooTest/GooTest.clog && ctest || true && make coverage-compute coverage-suppress coverage-report && coverage-report-details-html.py ../.coverage -out ../report_html 
+      run: cd build && rm -rf cpptest-coverage/GooTest/GooTest.clog && ctest || true && make cpptestcov-compute cpptestcov-suppress cpptestcov-report && cpptestcov report html-multipage ../.coverage -out ../report_html 
   
     - name: Archive html 
       uses: actions/upload-artifact@v3
